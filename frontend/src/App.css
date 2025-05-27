@@ -356,7 +356,7 @@
 }
 
 .audio-description.disabled {
-  opacity: 0.5; /* Grayed out when disabled */
+  /* opacity: 0.5; */
   pointer-events: none; /* Prevent interaction */
 }
 

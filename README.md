@@ -1,4 +1,14 @@
-# README
+<div align="center" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+  <a href="https://github.com/binomial14/SoundNarratives" style="margin-right: 20px; text-decoration: none; display: flex; align-items: center;">
+    <img src="frontend/public/soundnarratives.ico" alt="SoundNarratives" width="120">
+  </a>
+</div>
+
+<div align="center" style="display: flex; justify-content: center; align-items: center; text-align: center;">
+    <h2>
+    SoundNarratives: Rich Auditory Scene Descriptions to Support Deaf and Hard of Hearing People
+    </h2>
+</div>
 
 ## Frontend
 
@@ -7,7 +17,7 @@ Start UI
 ```bash
 npm install
 # npm start
-HTTPS=true SSL_CRT_FILE=../cert.pem SSL_KEY_FILE=../key.pem PORT=443 npm start
+HTTPS=true SSL_CRT_FILE=../cert.pem SSL_KEY_FILE=../key.pem PORT=2000 npm start
 ```
 
 ## Backend
@@ -23,7 +33,8 @@ pip install -r backend/requirements.txt
 Start backend
 
 ```bash
-python backend/server.py
+cd backend
+python server.py
 ```
 
 

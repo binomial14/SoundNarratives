@@ -17,7 +17,7 @@ function App() {
   // State for input values in settings
   const [descriptionLength, setDescriptionLength] = useState(10);
   const [style, setStyle] = useState('Narrative');
-  const [displayAudioLength, setDisplayAudioLength] = useState(10);
+  const [displayAudioLength, setDisplayAudioLength] = useState(15);
 
   // State for codes
   const [selectedCodes, setSelectedCodes] = useState({
@@ -30,11 +30,20 @@ function App() {
   });
 
   const [captions, setCaptions] = useState([{"time":"", "description":"Audio Scene Description..."}])
+  const [summary, setSummary] = useState('');
 
   function handleDataReceived(data) {
     setIsLoading(false);
     const currentTime = new Date().toLocaleTimeString();
     setCaptions(prevCaption => [...prevCaption, {"time":currentTime,"description":data}]);
+  }
+
+  function handleSummaryReceived(data) {
+    setIsLoading(false);
+    setSummary(data);
+    setIsRecording(false);
+    AudioStreamer.stopRecording();
+    setIsLoading(false);
   }
 
   function handleLoading(isLoading) {
@@ -61,11 +70,22 @@ function App() {
 
   useEffect(() => {
     // Listen for changes in the microphone status
+    socket.on('mic_status', (response) => {
+      console.log("microphone is occupied?", response.occupied)
+    });
 
     socket.on('captionData', (response) => {
       handleDataReceived(response.data);
       console.log("data")
     });
+
+    // socket.on('finalData', (response) => {
+    //   handleSummaryReceived(response.data);
+    //   console.log("data");
+    //   // setIsRecording(false);
+    //   // AudioStreamer.stopRecording();
+    //   // setIsLoading(false);
+    // });
 
     socket.on('systemInfo', (response) => {
       handleLoading(response.data);
@@ -73,14 +93,17 @@ function App() {
   }, []);
 
   function onStart() {
-    let audioLength = displayAudioLength -7 
+    let audioLength = displayAudioLength - 9; 
+    let withSummary = false;
     let config = {
       descriptionLength,
       style,
       audioLength,
-      selectedCodes
+      selectedCodes,
+      withSummary
     }
     setCaptions([]);
+    setSummary('');
     setIsRecording(true);
     setShowSettings(false);
     AudioStreamer.startRecording(handleDataReceived, handleLoading, config);
@@ -161,8 +184,14 @@ function App() {
               <div className="captions-list">
                 {captions.slice().reverse().map((item, index) => (
                   <div key={index} className="caption-item">
-                    <span className="caption-time">{item.time}</span>
-                    <span className="caption-text">{item.description}</span>
+                  {item.time==="" ? (
+                    <span className="caption-text">{item.description}</span>   
+                  ) : (
+                    <div>
+                      <span className="caption-time">{item.time}</span>
+                      <span className="caption-text">{item.description}</span>
+                    </div>
+                  )}
                   </div>
                 ))}
               </div>

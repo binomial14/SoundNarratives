@@ -2,8 +2,8 @@ import asyncio
 import threading
 
 from ClientAudio import ClientAudio
-from GoogleSpeechRecognition import google_speech_recognition
-from AFInference import af_model_inference
+# from GoogleSpeechRecognition import google_speech_recognition
+from AFInference import af_model_inference, af_model_long_inference
 
 clients = {}
 
@@ -16,13 +16,19 @@ class SystemWrapper:
         else:
             LOGGER.info("Warning! Client id {c_id} exists!")
     
-    async def speech_recognition(c_id,config,LOGGER):
-        client = clients[c_id]
-        while client.isOn:
-            await google_speech_recognition(client,config,LOGGER)
+    # async def speech_recognition(c_id,config,LOGGER):
+    #     client = clients[c_id]
+    #     while client.isOn:
+    #         await google_speech_recognition(client,config,LOGGER)
 
     async def sound_caption(c_id,config,LOGGER):
         client = clients[c_id]
+        if config['withSummary']:
+            print("Part II: ")
+            while client.isOn:
+                await af_model_long_inference(client,config,LOGGER)
+        else:
+            print("Part III: ")
         while client.isOn:
             await af_model_inference(client,config,LOGGER)
     

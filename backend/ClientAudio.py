@@ -56,4 +56,5 @@ class ClientAudio():
         await self._socket.emit(data_type, {'data': data})
 
     async def send_caption_data(self, data_type, data):
-        await self._socket.emit('captionData', {'data': data})
+        print(data_type, data)
+        await self._socket.emit(data_type, {'data': data})

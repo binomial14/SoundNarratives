@@ -1,8 +1,8 @@
 import io from 'socket.io-client';
 
 // const socket = new io.connect("https://10.0.0.123:10003/", {transports: ['websocket']});
-const BACKEND_URL = "https://141.212.110.188:443"
-const socket = io("wss://141.212.110.188:443",{transports: ['websocket']});
+const BACKEND_URL = "https://34.170.102.124:10000"
+const socket = io("wss://34.170.102.124:10000",{transports: ['websocket']});
 
 const mediaConstraints = {
     audio: true,

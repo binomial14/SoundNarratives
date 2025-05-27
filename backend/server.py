@@ -12,8 +12,8 @@ import sys
 
 from utils import linux_to_windows_path
 
-sys.path.append(linux_to_windows_path('/c/Users/lyuanwu/Workspace/AudioFlamingo/audio-flamingo/'))
-sys.path.append(linux_to_windows_path('/c/Users/lyuanwu/Workspace/AudioFlamingo/audio-flamingo/inference'))
+sys.path.append('/home/binomialwu/AFAPI/audio-flamingo')
+sys.path.append('/home/binomialwu/AFAPI/audio-flamingo/inference')
 
 from inference.AudioFlamingoAPI import AudioFlamingoAPI
 
@@ -32,7 +32,7 @@ LOGGER.addHandler(console_handler)
 app = web.Application()
 sio = socketio.AsyncServer(cors_allowed_origins=[])
 
-FRONTEND_URL = "https://141.212.110.188:443"
+FRONTEND_URL = "https://34.170.102.124:2000"
 
 sio.attach(app)
 
@@ -63,4 +63,4 @@ async def receive_audio(c_id, audio_data):
 
 ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
 ssl_context.load_cert_chain('../cert.pem', '../key.pem')
-web.run_app(app, host='0.0.0.0', port=443, ssl_context=ssl_context)
+web.run_app(app, host='0.0.0.0', port=10000, ssl_context=ssl_context)
